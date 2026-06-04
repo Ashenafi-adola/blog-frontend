@@ -1,4 +1,3 @@
-import './Style.css';
 
 export default function CreatePost() {
   return (

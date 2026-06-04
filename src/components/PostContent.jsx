@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 
 export default function PostContent(){
     return (
@@ -24,8 +24,8 @@ export default function PostContent(){
                         </div>
                         <p className="card-text">the main content goes here</p>
                         <div className="mt-3">
-                            <a href="" className="btn btn-sm btn-outline-success me-2">Edit</a>
-                            <a href="" className="btn btn-sm btn-outline-danger">Delete</a>
+                            <Link to="" className="btn btn-sm btn-outline-success me-2">Edit</Link>
+                            <Link to="" className="btn btn-sm btn-outline-danger">Delete</Link>
                         </div>
                     </div>
                 </article>

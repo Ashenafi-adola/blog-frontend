@@ -1,6 +1,5 @@
 import PostCard from "../components/PostCard";
 import RecentContainer from "../components/RecentContainer";
-import './Style.css';
 
 export default function HomePage() {
   return (
@@ -10,9 +9,19 @@ export default function HomePage() {
           <div className="row">
             <RecentContainer />
             <main className="col-lg-9 order-1 order-lg-1">
-              <PostCard />
-              <PostCard />
-              <PostCard />
+              <div className="row g-3">
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+                <PostCard />
+              </div>
             </main>
           </div>
         </div>
