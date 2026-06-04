@@ -1,12 +1,16 @@
 
 import './App.css'
 import HomePage from './pages/HomePage'
+import NavBar from './components/NavBar'
+import CreatePost from './pages/CreatePost'
 
 function App() {
 
   return (
     <>
-      <HomePage/>
+      <NavBar/>
+      <hr />
+      <CreatePost/>
     </>
   )
 }
