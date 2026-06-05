@@ -5,7 +5,7 @@ export default function PostCard(props){
     return(
         <>
             <div className="card h-100 shadow-sm">
-                <Link to="/view-post">
+                <Link to={`/view-post/${props.id}`}>
                     <img src={props.image} className="card-img-top img-fluid" alt={props.title}/>
                 </Link>
                 <div className="card-body">

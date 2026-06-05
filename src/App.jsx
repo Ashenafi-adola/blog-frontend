@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path='/home' element={<HomePage/>}/>    
           <Route path='/add-post' element={<CreatePost/>}/>    
-          <Route path='/view-post' element={<ViewPost/>}/>    
+          <Route path='/view-post/:id' element={<ViewPost />}/>    
         </Routes>
     </>
   )

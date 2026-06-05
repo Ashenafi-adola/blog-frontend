@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function PostContent(){
+export default function PostContent(props){
     return (
         <>
             <main className="col-md-6 mb-4 order-2 order-md-2">
@@ -8,8 +8,8 @@ export default function PostContent(){
                     <div className="card-body">
                         <div className="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                                <h4 className="card-title mb-0">posttitle</h4>
-                                <small className="text-muted">posted by @postauthor · pub date</small>
+                                <h4 className="card-title mb-0">{props.title}</h4>
+                                <small className="text-muted">{props.updated_at}</small>
                             </div>
                             <div className="text-end">
                                 <form action="" method="get" className="d-inline">
@@ -20,9 +20,9 @@ export default function PostContent(){
                             </div>
                         </div>
                         <div className="mb-3">
-                            <img src="" alt="post image" className="img-fluid rounded"/>
+                            <img src={props.image} alt="post image" className="img-fluid rounded"/>
                         </div>
-                        <p className="card-text">the main content goes here</p>
+                        <p className="card-text">{props.description}</p>
                         <div className="mt-3">
                             <Link to="" className="btn btn-sm btn-outline-success me-2">Edit</Link>
                             <Link to="" className="btn btn-sm btn-outline-danger">Delete</Link>
