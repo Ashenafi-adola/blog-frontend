@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import image from "../assets/hero.png"
 
 export default function PostCard(props){
     console.log(props.image)
