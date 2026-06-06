@@ -1,6 +1,7 @@
 import RecentList from "./RecentList";
 
-export default function RecentContainer(){
+export default function RecentContainer(props){
+    const posts = props.recents;
     return(
         <>
             <aside className="col-lg-3 mt-3 mt-lg-0 order-2 order-lg-2">
@@ -9,11 +10,12 @@ export default function RecentContainer(){
                         <h5 className="card-title">Recent Blogs</h5>
                         <hr/>
                         <ul className="list-unstyled mb-0">
-                            <RecentList/>
-                            <RecentList/>
-                            <RecentList/>
-                            <RecentList/>
-                            <RecentList/>
+                            {
+                                posts.map((post) => (
+                                    <RecentList post={post}/>
+                                ) )
+                            }
+                            
                         </ul>
                     </div>
                 </div>

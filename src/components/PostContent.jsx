@@ -1,6 +1,13 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function PostContent(props){
+    const navigate = useNavigate();
+    const deleteHandler = () => {
+        alert("are you sure you want to delete the post?")
+        axios.delete(`http://127.0.0.1:8000/posts/post-detail/${props.id}/`)
+        navigate("/home")
+    }
     return (
         <>
             <main className="col-md-6 mb-4 order-2 order-md-2">
@@ -25,7 +32,7 @@ export default function PostContent(props){
                         <p className="card-text">{props.description}</p>
                         <div className="mt-3">
                             <Link to="" className="btn btn-sm btn-outline-success me-2">Edit</Link>
-                            <Link to="" className="btn btn-sm btn-outline-danger">Delete</Link>
+                            <button onClick={deleteHandler} className="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
                     </div>
                 </article>

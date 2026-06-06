@@ -21,7 +21,7 @@ export default function HomePage() {
       <div className="content">
         <div className="container page-split">
           <div className="row">
-            <RecentContainer />
+            <RecentContainer recents={posts}/>
             <main className="col-lg-9 order-1 order-lg-1">
               <div className="row g-3">
                 {

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 
 export default function ViewPost(){
     const [post, setPost] = useState(null);
+    const [posts, setPosts] = useState([]);
 
     const {id} = useParams();
 
@@ -22,13 +23,24 @@ export default function ViewPost(){
         })
     },[]);
 
+    useEffect(() => {
+        axios
+        .get("http://127.0.0.1:8000/posts/home/")
+        .then((response) => {
+            setPosts(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }, []);
+
     return (
         <>
         <div className="container page-split">
             <div className="row">
-                <RecentContainer/>
+                <RecentContainer recents={posts}/>
                 { post &&
-                (<PostContent title={post.title} updated_at={post.updated_at} description={post.description} image={post.image}/>)
+                (<PostContent id={post.id} title={post.title} updated_at={post.updated_at} description={post.description} image={post.image}/>)
                 }           
                 <CommentContainer/>
             </div>
