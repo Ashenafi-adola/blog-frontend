@@ -37,8 +37,7 @@ export default function CreatePost() {
     data.append('description', formData.description);
     data.append('image', formData.image);
     try{
-      const response = await axios.post("http://127.0.0.1:8000/posts/create-post/", data);
-      console.log(response.data);
+      await axios.post("http://127.0.0.1:8000/posts/create-post/", data);
     } catch(error){
       console.error(error);
     }

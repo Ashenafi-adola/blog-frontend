@@ -1,13 +1,56 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function PostContent(props){
     const navigate = useNavigate();
+    const [reaction, setReaction] = useState({
+        likes:0,
+        dislikes:0
+    })
     const deleteHandler = () => {
         alert("are you sure you want to delete the post?")
         axios.delete(`http://127.0.0.1:8000/posts/post-detail/${props.id}/`)
         navigate("/home")
     }
+    const {id} = useParams();
+    useEffect(()=>{
+        axios.get(`http://127.0.0.1:8000/posts/post-reaction/${id}/`)
+        .then((response)=>{
+            setReaction(response.data);
+        }).catch((error) =>{
+            console.log(error);
+        })
+    },[])
+
+    const reactionHandler = (e) => {
+        const likes = reaction.likes + 1;
+        const dislikes = reaction.dislikes + 1;
+        const data = {
+            likes: reaction.likes,
+            dislikes: reaction.dislikes 
+        }
+        if (e.target.name == 'like'){
+            setReaction({
+                ...reaction,
+                likes: likes
+            })
+            data.likes = likes;
+        }else{
+            setReaction({
+                ...reaction,
+                dislikes: dislikes
+            })
+            data.dislikes = dislikes;
+        }
+        try{
+            axios.put(`http://127.0.0.1:8000/posts/post-reaction/${id}/`, data);
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <main className="col-md-6 mb-4 order-2 order-md-2">
@@ -19,10 +62,8 @@ export default function PostContent(props){
                                 <small className="text-muted">{props.updated_at}</small>
                             </div>
                             <div className="text-end">
-                                <form action="" method="get" className="d-inline">
-                                    <button type="submit" name="action" value="like" className="btn btn-sm btn-outline-primary me-1">👍 4</button>
-                                    <button type="submit" name="action" value="dislike" className="btn btn-sm btn-outline-secondary">👎 1</button>
-                                </form>
+                                <button onClick={reactionHandler} name="like" className="btn btn-sm btn-outline-primary me-1">👍 {reaction.likes}</button>
+                                <button onClick={reactionHandler} name="action" value="dislike" className="btn btn-sm btn-outline-secondary">👎 {reaction.dislikes}</button>
                                 <div className="mt-2 text-muted small">Views 👁️ 13</div>
                             </div>
                         </div>

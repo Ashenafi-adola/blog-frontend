@@ -8,10 +8,6 @@ import { useParams } from "react-router-dom";
 export default function ViewPost(){
     const [post, setPost] = useState(null);
     const [posts, setPosts] = useState([]);
-    const [reaction, setReaction] = useState({
-        likes: 0,
-        dislikes: 0
-    })
 
     const {id} = useParams();
 
@@ -20,7 +16,6 @@ export default function ViewPost(){
         .get(`http://127.0.0.1:8000/posts/post-detail/${id}/`)
         .then((response) => {
             setPost(response.data);
-            console.log(response.data)
         })
         .catch((error) =>{
             console.log(error);
@@ -38,9 +33,7 @@ export default function ViewPost(){
         });
     }, []);
 
-    useEffect(()=>{
-        axios.
-    })
+
     return (
         <>
         <div className="container page-split">
