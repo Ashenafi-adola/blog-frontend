@@ -8,6 +8,10 @@ import { useParams } from "react-router-dom";
 export default function ViewPost(){
     const [post, setPost] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [reaction, setReaction] = useState({
+        likes: 0,
+        dislikes: 0
+    })
 
     const {id} = useParams();
 
@@ -34,6 +38,9 @@ export default function ViewPost(){
         });
     }, []);
 
+    useEffect(()=>{
+        axios.
+    })
     return (
         <>
         <div className="container page-split">

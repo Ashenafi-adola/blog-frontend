@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
     return(
         <>
-            <nav>
+            <nav style={{position:'relative'}}>
                 <div className="container-fluid d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
                         <h1 className="me-3 mb-0"><a href="">BLOG</a></h1>
