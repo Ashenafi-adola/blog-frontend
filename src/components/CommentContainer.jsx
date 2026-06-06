@@ -25,12 +25,10 @@ export default function CommentContainer(){
 
     const commentChangeHandler = (e) =>{
         setComment({text:e.target.value});
-        console.log(e.target.value)
     }
     const formSubmitHandler = () => {
         try{
             axios.post(`http://127.0.0.1:8000/posts/add-comment/${id}/`, comment)
-            console.log(comment)
         }catch(error){
             console.error(error)
         }
