@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function PostCard(props){
-    console.log(props.image)
     return(
         <>
             <div className="card h-100 shadow-sm">

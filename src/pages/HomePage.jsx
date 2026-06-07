@@ -1,14 +1,14 @@
 import PostCard from "../components/PostCard";
 import RecentContainer from "../components/RecentContainer";
 import { useState, useEffect } from "react";
-import axios from 'axios'
+import api from "../api/api";
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/posts/home/")
+    api
+      .get("/posts/home/")
       .then((response) => {
         setPosts(response.data);
       })

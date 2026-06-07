@@ -1,8 +1,7 @@
 import CommentList from "./CommentList"
 import { useState, useEffect } from "react"
-import axios from "axios"
 import { useParams } from "react-router-dom";
-
+import api from "../api/api";
 
 export default function CommentContainer(){
     const [comment, setComment] = useState({
@@ -14,8 +13,8 @@ export default function CommentContainer(){
     const {id} = useParams();
 
     useEffect(() => {
-        axios
-          .get(`http://127.0.0.1:8000/posts/add-comment/${id}/`)
+        api
+          .get(`/posts/add-comment/${id}/`)
           .then((response) => {
             setComments(response.data);
             console.log(response.data)
@@ -32,10 +31,10 @@ export default function CommentContainer(){
     const formSubmitHandler = async () => {
       if (comment.text !== "") {
         try {
-          await axios.post(
-            `http://127.0.0.1:8000/posts/add-comment/${id}/`,comment,);
+          await api.post(
+            `/posts/add-comment/${id}/`,comment,);
 
-          await axios.get(`http://127.0.0.1:8000/posts/add-comment/${id}/`)
+          await api.get(`/posts/add-comment/${id}/`)
             .then((response) => {
               setComments(response.data);
             })

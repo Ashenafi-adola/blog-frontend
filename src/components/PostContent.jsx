@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import api from "../api/api";
 
 export default function PostContent(props){
     const navigate = useNavigate();
@@ -10,12 +10,12 @@ export default function PostContent(props){
     })
     const deleteHandler = () => {
         alert("are you sure you want to delete the post?")
-        axios.delete(`http://127.0.0.1:8000/posts/post-detail/${props.id}/`)
+        api.delete(`/posts/post-detail/${props.id}/`)
         navigate("/home")
     }
     const {id} = useParams();
     useEffect(()=>{
-        axios.get(`http://127.0.0.1:8000/posts/post-reaction/${id}/`)
+        api.get(`/posts/post-reaction/${id}/`)
         .then((response)=>{
             setReaction(response.data);
         }).catch((error) =>{
@@ -44,7 +44,7 @@ export default function PostContent(props){
             data.dislikes = dislikes;
         }
         try{
-            axios.put(`http://127.0.0.1:8000/posts/post-reaction/${id}/`, data);
+            api.put(`/posts/post-reaction/${id}/`, data);
         }
         catch(error){
             console.log(error);

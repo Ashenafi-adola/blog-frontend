@@ -1,7 +1,7 @@
 import RecentContainer from "../components/RecentContainer";
 import PostContent from "../components/PostContent";
 import CommentContainer from "../components/CommentContainer";
-import axios from "axios";
+import api from "../api/api";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -12,8 +12,8 @@ export default function ViewPost(){
     const {id} = useParams();
 
     useEffect(() => {
-        axios
-        .get(`http://127.0.0.1:8000/posts/post-detail/${id}/`)
+        api
+        .get(`/posts/post-detail/${id}/`)
         .then((response) => {
             setPost(response.data);
             
@@ -24,8 +24,8 @@ export default function ViewPost(){
     },[]);
 
     useEffect(() => {
-        axios
-        .get("http://127.0.0.1:8000/posts/home/")
+        api
+        .get("/posts/home/")
         .then((response) => {
             setPosts(response.data);
         })
