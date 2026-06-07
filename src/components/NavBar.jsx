@@ -11,7 +11,7 @@ const NavBar = () => {
                         <div className="links">
                             <Link to="/home">HOME</Link>
                             <Link to="/add-post">ADD POST</Link>
-                            <Link to="/signin">Sign in</Link>
+                            <Link to='/auth/login'>Sign in</Link>
                         </div>
                     </div>
                     <form action="" method="get" className="searc d-flex ms-3" role="search">

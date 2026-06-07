@@ -16,6 +16,7 @@ export default function ViewPost(){
         .get(`http://127.0.0.1:8000/posts/post-detail/${id}/`)
         .then((response) => {
             setPost(response.data);
+            
         })
         .catch((error) =>{
             console.log(error);

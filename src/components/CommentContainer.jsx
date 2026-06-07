@@ -6,7 +6,9 @@ import { useParams } from "react-router-dom";
 
 export default function CommentContainer(){
     const [comment, setComment] = useState({
-        text: ""
+        id: 0,
+        text: "",
+        date:null
     });
     const [comments, setComments] = useState([])
     const {id} = useParams();
@@ -16,6 +18,7 @@ export default function CommentContainer(){
           .get(`http://127.0.0.1:8000/posts/add-comment/${id}/`)
           .then((response) => {
             setComments(response.data);
+            console.log(response.data)
           })
           .catch((error) => {
             console.error(error);
@@ -26,29 +29,50 @@ export default function CommentContainer(){
     const commentChangeHandler = (e) =>{
         setComment({text:e.target.value});
     }
-    const formSubmitHandler = () => {
-        try{
-            axios.post(`http://127.0.0.1:8000/posts/add-comment/${id}/`, comment)
-        }catch(error){
-            console.error(error)
+    const formSubmitHandler = async () => {
+      if (comment.text !== "") {
+        try {
+          await axios.post(
+            `http://127.0.0.1:8000/posts/add-comment/${id}/`,comment,);
+
+          await axios.get(`http://127.0.0.1:8000/posts/add-comment/${id}/`)
+            .then((response) => {
+              setComments(response.data);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } catch (error) {
+          console.error(error);
         }
-    }
+        finally{
+            setComment({
+                ...comment,
+                text: ""
+            })
+        }
+      } else {
+        console.log("the comment is empty");
+      }
+    };
     return (
         <>
         <aside className="col-md-3 mb-4 order-3 order-md-3">
             <div className="card shadow-sm">
                 <div className="card-body">
                     <h5 className="card-title">Comments</h5>
-                    <form className="mb-3" onSubmit={formSubmitHandler}>
+                    
                         <textarea name="" id="" className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}></textarea>
                         <div className="d-grid">
-                            <button type="submit" className="btn btn-primary btn-sm mt-2">Comment</button>
+                            <button onClick={formSubmitHandler} className="btn btn-primary btn-sm mt-2">Comment</button>
                         </div>
-                    </form>
+                    
                     <div className="comment-list">
                         {
                             comments.map((comment) => (
-                                <CommentList text={comment.text}/>
+                                <div key={comment.id} className="comment-item mb-3">
+                                    <CommentList  text={comment.text} date={comment.date}/>
+                                </div>
                             ))
                         }
                     </div>

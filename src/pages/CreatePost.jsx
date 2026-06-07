@@ -46,7 +46,7 @@ export default function CreatePost() {
   return (
     <>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="auth-form card" style={{width:400, alignSelf:"center"}}>
           <label htmlFor="title">Title:</label>
           <input type="text" onChange={titleChangeHandler} className="form-control" placeholder="Title..." />
           <label htmlFor="content">Content:</label>

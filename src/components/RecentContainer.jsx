@@ -12,7 +12,7 @@ export default function RecentContainer(props){
                         <ul className="list-unstyled mb-0">
                             {
                                 posts.map((post) => (
-                                    <RecentList post={post}/>
+                                    <RecentList key={post.id} post={post}/>
                                 ) )
                             }
                             
