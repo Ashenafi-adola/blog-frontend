@@ -4,52 +4,78 @@ import api from "../api/api";
 
 export default function PostContent(props){
     const navigate = useNavigate();
-    const [reaction, setReaction] = useState({
-        likes:0,
-        dislikes:0
+    const [like, setLike] = useState({
+        post:0,
+        user:[]
     })
+    const [dislike, setDislike] = useState({
+        post: 0,
+        user: []
+    })
+    const [likes, setLikes] = useState(0);
+    const [dislikes, setDislikes] = useState(0);
+
+    
     const deleteHandler = () => {
         alert("are you sure you want to delete the post?")
         api.delete(`/posts/post-detail/${props.id}/`)
         navigate("/home")
     }
     const {id} = useParams();
+
     useEffect(()=>{
-        api.get(`/posts/post-reaction/${id}/`)
+        api.get(`/posts/post-like/${id}/`)
         .then((response)=>{
-            setReaction(response.data);
+            setLike(response.data);
+            setLikes(response.data.user.length);
+        }).catch((error) =>{
+            console.log(error);
+        })
+    },[])
+
+    useEffect(()=>{
+        api.get(`/posts/post-dislike/${id}/`)
+        .then((response) =>{
+            setDislike(response.data);
+            setDislikes(response.data.user.length)
         }).catch((error) =>{
             console.log(error);
         })
     },[])
 
     const reactionHandler = (e) => {
-        const likes = reaction.likes + 1;
-        const dislikes = reaction.dislikes + 1;
-        const data = {
-            likes: reaction.likes,
-            dislikes: reaction.dislikes 
-        }
-        if (e.target.name == 'like'){
-            setReaction({
-                ...reaction,
-                likes: likes
-            })
-            data.likes = likes;
-        }else{
-            setReaction({
-                ...reaction,
-                dislikes: dislikes
-            })
-            data.dislikes = dislikes;
-        }
-        try{
-            api.put(`/posts/post-reaction/${id}/`, data);
-        }
-        catch(error){
+      if (e.target.name === "like") {
+        api
+          .get(`/posts/post-like/${id}/`)
+          .then((response) => {
+            setLike(response.data);
+            setLikes(response.data.user.length);
+          })
+          .catch((error) => {
             console.log(error);
+          });
+        try {
+          api.put(`/posts/post-like/${id}/`, null);
+        } catch (error) {
+          console.log(error);
         }
-    }
+      } else {
+        api
+          .get(`/posts/post-dislike/${id}/`)
+          .then((response) => {
+            setDislike(response.data);
+            setDislikes(response.data.user.length);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        try {
+          api.put(`/posts/post-dislike/${id}/`, null);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
 
     return (
         <>
@@ -62,8 +88,8 @@ export default function PostContent(props){
                                 <small className="text-muted">{props.updated_at}</small>
                             </div>
                             <div className="text-end">
-                                <button onClick={reactionHandler} name="like" className="btn btn-sm btn-outline-primary me-1">👍 {reaction.likes}</button>
-                                <button onClick={reactionHandler} name="action" value="dislike" className="btn btn-sm btn-outline-secondary">👎 {reaction.dislikes}</button>
+                                <button onClick={reactionHandler} name="like" className="btn btn-sm btn-outline-primary me-1">👍 {likes}</button>
+                                <button onClick={reactionHandler} name="dislike" className="btn btn-sm btn-outline-secondary">👎 {dislikes}</button>
                                 <div className="mt-2 text-muted small">Views 👁️ 13</div>
                             </div>
                         </div>

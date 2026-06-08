@@ -1,8 +1,18 @@
 import { Navigate } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode';
-import api from "../api/api";
-import ACCESS_TOKEN from '../api/api';
+import api, { ACCESS_TOKEN } from "../api/api";
 import { useState, useEffect } from "react";
+
+// Small JWT parser to avoid importing `jwt-decode` (ESM default export issues)
+function parseJwt(token){
+    try{
+        const base64 = token.split('.')[1];
+        const padded = base64.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(base64.length / 4) * 4, '=');
+        const json = atob(padded);
+        return JSON.parse(json);
+    }catch(e){
+        return null;
+    }
+}
 
 const REFRESH_TOKEN = 'refresh';
 
@@ -33,7 +43,7 @@ function ProtectedRoute({children}){
             setIsAuthorized(false)
             return
         }
-        const decoded = jwtDecode(token);
+        const decoded = parseJwt(token);
         const tokenExpiration = decoded.exp;
         const now = Date.now()/1000;
         if ( tokenExpiration < now){

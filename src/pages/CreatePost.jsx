@@ -37,7 +37,7 @@ export default function CreatePost() {
     data.append('description', formData.description);
     data.append('image', formData.image);
     try{
-      await api.post("http://127.0.0.1:8000/posts/create-post/", data);
+      await api.post("/posts/create-post/", data);
     } catch(error){
       console.error(error);
     }

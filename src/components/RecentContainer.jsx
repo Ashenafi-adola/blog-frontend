@@ -15,7 +15,6 @@ export default function RecentContainer(props){
                                     <RecentList key={post.id} post={post}/>
                                 ) )
                             }
-                            
                         </ul>
                     </div>
                 </div>

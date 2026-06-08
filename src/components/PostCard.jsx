@@ -12,7 +12,7 @@ export default function PostCard(props){
                     <p className="card-text text-muted small">{props.description}</p>
                 </div>
                 <div className="card-footer bg-white">
-                    <small className="text-muted">@postauthor</small>
+                    <small className="text-muted">@{props.user}</small>
                 </div>
             </div>
         </>

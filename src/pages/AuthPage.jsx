@@ -1,12 +1,13 @@
 import { useParams, Link } from "react-router-dom"
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 
 export default function AuthPage(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate();
     const { page } = useParams();
@@ -31,6 +32,7 @@ export default function AuthPage(){
         e.preventDefault();
         try{
             if (page === 'signup'){
+                setIsLoading(true)
                 if (password !== passwordConfirmation){
                     alert("Your passwords are not the same!")
                     return
@@ -39,10 +41,13 @@ export default function AuthPage(){
                 const res = await api.post('/accounts/create-account/', {username, password})
                 navigate('/auth/login')
             }else{
+                
+                setIsLoading(true)
                 const res = await api.post('/api/token/', {username, password});
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 navigate("/add-post");
+                
             }
         }catch(error){
             alert(error)
@@ -54,20 +59,23 @@ export default function AuthPage(){
             <div className="card-body">
             <h2>{ name }</h2>
             <div className="mb-3 mt-3">
-                <label for="username" className="form-label">Username:</label>
+                <label  className="form-label">Username:</label>
                 <input type="text" className="form-control" onChange={usernameChangeHandler} placeholder="Username"/>
             </div>
             <div className="mb-3">
-                <label for="pwd" className="form-label">Password:</label>
+                <label  className="form-label">Password:</label>
                 <input type="password" className="form-control" onChange={passwordChangeHandler} placeholder="Enter password" name="password1"/>
             </div>
             {
                 page=='signup'?(
                     <div className="mb-3">
-                        <label for="pwd" className="form-label">Password Confirmation:</label>
+                        <label  className="form-label">Password Confirmation:</label>
                         <input type="password" className="form-control" id="pwd2" placeholder="Confirm password" onChange={passwordConfirmationChangeHandler}/>
                     </div>
                 ):null
+            }
+            {
+                isLoading ? <div>Loading...</div> : null
             }
             <button type="submit" className="btn btn-primary">{name}</button>
             <p className="mt-2">{ page=='login'?"Don't Have an account? Create ": "Already Have an account? Login " } <Link to={page=="login"?'/auth/signup':'/auth/login'} >Here!</Link></p>

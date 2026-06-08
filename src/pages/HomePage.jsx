@@ -27,7 +27,7 @@ export default function HomePage() {
                 {
                   posts.map((post) => (
                     <div key={post.id} className="col-sm-6 col-lg-4">
-                      <PostCard id={post.id} title={post.title} description={post.description} image={post.image} />
+                      <PostCard id={post.id} title={post.title} description={post.description} image={post.image} user={post.user}/>
                     </div>
                   ))
                 }

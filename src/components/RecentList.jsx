@@ -8,7 +8,7 @@ export default function RecentList(props){
                 <img src={props.post.image} alt="" className="rounded-circle me-2" width="48" height="48"/>
                 <div>
                     <div className="fw-bold">{props.post.title}</div>
-                    <small className="text-muted">@postauthor - </small>
+                    <small className="text-muted">@{props.post.user} - </small>
                 </div>
             </Link>
         </li>
