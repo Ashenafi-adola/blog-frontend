@@ -7,7 +7,9 @@ export default function CommentContainer(){
     const [comment, setComment] = useState({
         id: 0,
         text: "",
-        date:null
+        user:"",
+        commented_at:"",
+        edited_at:""
     });
     const [comments, setComments] = useState([])
     const {id} = useParams();
@@ -30,9 +32,12 @@ export default function CommentContainer(){
     }
     const formSubmitHandler = async () => {
       if (comment.text !== "") {
+        const data = {
+          text:comment.text,
+        }
         try {
           await api.post(
-            `/posts/add-comment/${id}/`,comment,);
+            `/posts/add-comment/${id}/`,data);
 
           await api.get(`/posts/add-comment/${id}/`)
             .then((response) => {
@@ -70,7 +75,7 @@ export default function CommentContainer(){
                         {
                             comments.map((comment) => (
                                 <div key={comment.id} className="comment-item mb-3">
-                                    <CommentList  text={comment.text} date={comment.date}/>
+                                    <CommentList  fields={comment}/>
                                 </div>
                             ))
                         }
