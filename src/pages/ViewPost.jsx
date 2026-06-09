@@ -28,7 +28,6 @@ export default function ViewPost(){
         .get("/posts/home/")
         .then((response) => {
             setPosts(response.data);
-            console.log(response.data)
         })
         .catch((error) => {
             console.error(error);

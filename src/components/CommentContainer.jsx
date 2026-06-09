@@ -70,7 +70,7 @@ export default function CommentContainer(){
                 <div className="card-body">
                     <h5 className="card-title">Comments</h5>
                     
-                        <textarea name="" id="" className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}>{comment}</textarea>
+                        <textarea value={comment} className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}></textarea>
                         <div className="d-grid">
                             <button onClick={formSubmitHandler} className="btn btn-primary btn-sm mt-2">Comment</button>
                         </div>

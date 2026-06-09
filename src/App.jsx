@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 import AuthPage from './pages/AuthPage'
 import ProtectedRout from './components/ProtectedRoute'
 import UpdatePage from './pages/UpdatePage'
+import Tunel from './components/Tunel'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='/view-post/:id' element={<ViewPost />}/>    
           <Route path='/auth/:page' element={ < AuthPage />} />
           <Route path='/update-post/:id/' element={<UpdatePage/>} />
+          <Route path='/tunel/:id' element={<Tunel />} />
         </Routes>
       </div>
     </>

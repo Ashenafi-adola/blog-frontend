@@ -39,7 +39,7 @@ export default function CommentList({fields, deleteHandler}){
     if (editMode){
         return (
             <>
-                <textarea name="" id="" className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}>{comment}</textarea>
+                <textarea value={comment} className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}></textarea>
                 <div className="d-grid">
                     <button onClick={commentSubmitHandler} className="btn btn-primary btn-sm mt-2">Update</button>
                 </div>

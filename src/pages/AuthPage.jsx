@@ -50,36 +50,39 @@ export default function AuthPage(){
                 
             }
         }catch(error){
-            alert(error)
-        }
+            console.log(error)
+        }      
     }
-   
     return (
-        <form onSubmit={submitHandler} className="auth-form card" style={{width:400, alignSelf:"center"}}>
-            <div className="card-body">
-            <h2>{ name }</h2>
-            <div className="mb-3 mt-3">
-                <label  className="form-label">Username:</label>
-                <input type="text" className="form-control" onChange={usernameChangeHandler} placeholder="Username"/>
+        <div className="container">
+            <div className="row justify-content-center">
+                <div className="col-12 col-md-6 col-lg-5">
+                    <form onSubmit={submitHandler} className="card shadow-sm">
+                        <div className="card-body p-4">
+                            <h3 className="card-title text-center mb-3">{name}</h3>
+                            <div className="mb-3">
+                                <label htmlFor="username" className="form-label">Username</label>
+                                <input id="username" type="text" className="form-control" value={username} onChange={usernameChangeHandler} placeholder="Username" />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="pwd" className="form-label">Password</label>
+                                <input id="pwd" type="password" className="form-control" value={password} onChange={passwordChangeHandler} placeholder="Enter password" />
+                            </div>
+                            {page === 'signup' ? (
+                                <div className="mb-3">
+                                    <label htmlFor="pwd2" className="form-label">Password Confirmation</label>
+                                    <input id="pwd2" type="password" className="form-control" value={passwordConfirmation} onChange={passwordConfirmationChangeHandler} placeholder="Confirm password" />
+                                </div>
+                            ) : null}
+                            {isLoading ? <div className="mb-3 text-center">Loading...</div> : null}
+                            <div className="d-grid mb-2">
+                                <button type="submit" className="btn btn-primary">{name}</button>
+                            </div>
+                            <p className="text-center mb-0">{page === 'login' ? "Don't have an account? " : "Already have an account? "}<Link to={page === 'login' ? '/auth/signup' : '/auth/login'}>Here!</Link></p>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div className="mb-3">
-                <label  className="form-label">Password:</label>
-                <input type="password" className="form-control" onChange={passwordChangeHandler} placeholder="Enter password" name="password1"/>
-            </div>
-            {
-                page=='signup'?(
-                    <div className="mb-3">
-                        <label  className="form-label">Password Confirmation:</label>
-                        <input type="password" className="form-control" id="pwd2" placeholder="Confirm password" onChange={passwordConfirmationChangeHandler}/>
-                    </div>
-                ):null
-            }
-            {
-                isLoading ? <div>Loading...</div> : null
-            }
-            <button type="submit" className="btn btn-primary">{name}</button>
-            <p className="mt-2">{ page=='login'?"Don't Have an account? Create ": "Already Have an account? Login " } <Link to={page=="login"?'/auth/signup':'/auth/login'} >Here!</Link></p>
-            </div>
-        </form>
+        </div>
     )
 }
