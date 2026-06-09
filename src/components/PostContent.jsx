@@ -1,10 +1,10 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api from "../api/api";
+import api, { ACCESS_TOKEN } from "../api/api";
+import { jwtDecode } from 'jwt-decode'
 
 export default function PostContent(props){
     const navigate = useNavigate();
-
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
     const [views, setViews] = useState(0);
@@ -16,11 +16,21 @@ export default function PostContent(props){
         post:0,
         user:[]
     })
-
-    const {id} = useParams();
+    const [posterId, setPosterId] = useState(0);
 
     useEffect(()=>{
-        api.get(`/posts/views/${props.id}/`)
+        api.get(`/accounts/get-user-id/${props.post.user}`)
+        .then((response)=>{
+            setPosterId(response.data.id)
+        })
+    },[])
+
+    const {id} = useParams();
+    const token = localStorage.getItem(ACCESS_TOKEN);
+    const userId = jwtDecode(token).user_id;
+
+    useEffect(()=>{
+        api.get(`/posts/views/${props.post.id}/`)
         .then((response)=>{
             setViews(response.data.user.length)
         }).catch((error)=>{
@@ -30,9 +40,10 @@ export default function PostContent(props){
 
     
     const deleteHandler = () => {
-        alert("are you sure you want to delete the post?")
-        api.delete(`/posts/post-detail/${props.id}/`)
-        navigate("/home")
+        if(confirm("are you sure you want to delete the post?")){
+            api.delete(`/posts/post-detail/${props.id}/`)
+            navigate("/home")
+        }
     }
 
     useEffect(()=>{
@@ -91,8 +102,13 @@ export default function PostContent(props){
         });
     };
 
-    const dateString = props.updated_at;
+
+
+    const dateString = props.post.updated_at;
     const date = new Date(dateString).toDateString();
+    const update_url = `/update-post/${id}`
+
+
     return (
         <>
             <main className="col-md-6 mb-4 order-2 order-md-2">
@@ -101,8 +117,8 @@ export default function PostContent(props){
                 <div className="card-body">
                         <div className="d-flex justify-content-between align-items-start mb-2">
                             <div>
-                                <h4 className="card-title mb-0">{props.title}</h4>
-                                <small>@{props.user}</small><br />
+                                <h4 className="card-title mb-0">{props.post.title}</h4>
+                                <small>@{props.post.user}</small><br />
                                 <small className="text-muted">{date}</small>
                             </div>
                             <form onSubmit={reactionHandler}>
@@ -114,14 +130,17 @@ export default function PostContent(props){
                             </form>
                         </div>
                         <div className="mb-3">
-                            <img src={props.image} alt="post image" className="img-fluid rounded"/>
+                            <img src={props.post.image} alt="post image" className="img-fluid rounded"/>
                         </div>
-                        <div className="mt-3">
-                            <Link to="" className="btn btn-sm btn-outline-success me-2">Edit</Link>
-                            <button onClick={deleteHandler} className="btn btn-sm btn-outline-danger">Delete</button>
-                        </div>
-                        <p className="card-text">{props.description}</p>
+                        {
+                            userId == posterId ? (
+                            <div className="mt-3">
+                                <Link to={update_url} className="btn btn-sm btn-outline-success me-2">Edit</Link>
+                                <button onClick={deleteHandler} className="btn btn-sm btn-outline-danger">Delete</button>
+                            </div>):<div></div>
+                        }
                         
+                        <p className="card-text">{props.post.description}</p>
                     </div>
                 </article>
                 </div>

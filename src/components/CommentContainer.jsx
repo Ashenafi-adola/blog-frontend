@@ -4,13 +4,7 @@ import { useParams } from "react-router-dom";
 import api from "../api/api";
 
 export default function CommentContainer(){
-    const [comment, setComment] = useState({
-        id: 0,
-        text: "",
-        user:"",
-        commented_at:"",
-        edited_at:""
-    });
+    const [comment, setComment] = useState("");
     const [comments, setComments] = useState([])
     const {id} = useParams();
 
@@ -20,7 +14,6 @@ export default function CommentContainer(){
           .get(`/posts/add-comment/${id}/`)
           .then((response) => {
             setComments(response.data);
-            console.log(response.data)
           })
           .catch((error) => {
             console.error(error);
@@ -29,13 +22,14 @@ export default function CommentContainer(){
 
 
     const commentChangeHandler = (e) =>{
-        setComment({text:e.target.value});
+        setComment(e.target.value);
     }
     const formSubmitHandler = async () => {
-      if (comment.text !== "") {
+      if (comment !== "") {
         const data = {
-          text:comment.text,
+          text:comment,
         }
+        setComment("")
         try {
           await api.post(
             `/posts/add-comment/${id}/`,data);
@@ -50,16 +44,25 @@ export default function CommentContainer(){
         } catch (error) {
           console.error(error);
         }
-        finally{
-            setComment({
-                ...comment,
-                text: ""
+      } 
+    };
+
+    const deleteHandler = (pid, cid) => {
+        if(confirm("are you sure you want to delet this comment")){
+            api.delete(`/posts/comment-update-delete/${cid}/`)
+            .catch((error)=>{
+                console.log(error)
             })
         }
-      } else {
-        console.log("the comment is empty");
-      }
-    };
+        api
+          .get(`/posts/add-comment/${pid}/`)
+          .then((response) => {
+            setComments(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    }
     return (
         <>
         <aside className="col-md-3 mb-4 order-3 order-md-3">
@@ -67,7 +70,7 @@ export default function CommentContainer(){
                 <div className="card-body">
                     <h5 className="card-title">Comments</h5>
                     
-                        <textarea name="" id="" className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}></textarea>
+                        <textarea name="" id="" className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}>{comment}</textarea>
                         <div className="d-grid">
                             <button onClick={formSubmitHandler} className="btn btn-primary btn-sm mt-2">Comment</button>
                         </div>
@@ -77,7 +80,7 @@ export default function CommentContainer(){
                       {
                         comments.map((comment) => (
                           <div key={comment.id} className="comment-item mb-3">
-                            <CommentList  fields={comment}/>
+                            <CommentList  fields={comment} deleteHandler={deleteHandler}/>
                           </div>
                         ))
                       }

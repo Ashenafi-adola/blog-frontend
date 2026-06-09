@@ -42,7 +42,7 @@ export default function ViewPost(){
             <div className="row">
                 <RecentContainer recents={posts}/>
                 { post &&
-                (<PostContent id={post.id} title={post.title} updated_at={post.updated_at} user={post.user} description={post.description} image={post.image}/>)
+                (<PostContent post={post}/>)
                 }           
                 <CommentContainer/>
             </div>
