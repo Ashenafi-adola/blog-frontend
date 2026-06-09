@@ -15,6 +15,7 @@ export default function CommentContainer(){
     const {id} = useParams();
 
     useEffect(() => {
+        if (!id) return;
         api
           .get(`/posts/add-comment/${id}/`)
           .then((response) => {
@@ -24,7 +25,7 @@ export default function CommentContainer(){
           .catch((error) => {
             console.error(error);
           });
-      }, []);
+      }, [id]);
 
 
     const commentChangeHandler = (e) =>{
@@ -72,13 +73,15 @@ export default function CommentContainer(){
                         </div>
                     
                     <div className="comment-list">
-                        {
-                            comments.map((comment) => (
-                                <div key={comment.id} className="comment-item mb-3">
-                                    <CommentList  fields={comment}/>
-                                </div>
-                            ))
-                        }
+                      <div className="overflow-auto mt-3" style={{maxHeight: 'calc(100vh - 250px)'}}>
+                      {
+                        comments.map((comment) => (
+                          <div key={comment.id} className="comment-item mb-3">
+                            <CommentList  fields={comment}/>
+                          </div>
+                        ))
+                      }
+                      </div>
                     </div>
                 </div>
             </div>

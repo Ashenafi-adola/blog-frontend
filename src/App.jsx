@@ -12,13 +12,15 @@ function App() {
   return (
     <>
       <NavBar/>
-      <hr />
+      <div className="pt-5">
+        <hr />
         <Routes>
           <Route path='/home' element={<HomePage/>}/>
           <Route path='/add-post' element={<ProtectedRout><CreatePost/></ProtectedRout> }/>
           <Route path='/view-post/:id' element={<ViewPost />}/>    
           <Route path='/auth/:page' element={ < AuthPage />} />
         </Routes>
+      </div>
     </>
   )
 }

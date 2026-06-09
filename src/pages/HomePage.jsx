@@ -23,14 +23,16 @@ export default function HomePage() {
           <div className="row">
             <RecentContainer recents={posts}/>
             <main className="col-lg-9 order-1 order-lg-1">
-              <div className="row g-3">
-                {
-                  posts.map((post) => (
-                    <div key={post.id} className="col-sm-6 col-lg-4">
-                      <PostCard id={post.id} title={post.title} description={post.description} image={post.image} user={post.user}/>
-                    </div>
-                  ))
-                }
+              <div className="overflow-auto" style={{maxHeight: 'calc(100vh - 120px)'}}>
+                <div className="row g-3">
+                  {
+                    posts.map((post) => (
+                      <div key={post.id} className="col-sm-6 col-lg-4">
+                        <PostCard id={post.id} title={post.title} description={post.description} image={post.image} user={post.user}/>
+                      </div>
+                    ))
+                  }
+                </div>
               </div>
             </main>
           </div>

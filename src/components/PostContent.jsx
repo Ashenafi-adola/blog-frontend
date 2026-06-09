@@ -8,6 +8,14 @@ export default function PostContent(props){
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
     const [views, setViews] = useState(0);
+    const [like, setLike] = useState({
+        post:0,
+        user:[]
+    })
+    const [dislike, setDislike] = useState({
+        post:0,
+        user:[]
+    })
 
     const {id} = useParams();
 
@@ -28,18 +36,20 @@ export default function PostContent(props){
     }
 
     useEffect(()=>{
-        api.get(`/posts/post-like/${id}/`)
+        api.get(`/posts/postlike/${id}/`)
         .then((response)=>{
             setLikes(response.data.user.length);
+            setLike(response.data)
         }).catch((error) =>{
             console.log(error);
         })
     },[])
 
     useEffect(()=>{
-        api.get(`/posts/post-dislike/${id}/`)
+        api.get(`/posts/postdislike/${id}/`)
         .then((response) =>{
             setDislikes(response.data.user.length)
+            setDislike(response.data)
         }).catch((error) =>{
             console.log(error);
         })
@@ -47,7 +57,7 @@ export default function PostContent(props){
 
     const likeHandler = async () => {
       try {
-        await api.put(`/posts/post-like/${id}/`, null);
+        await api.put(`/posts/postlike/${id}/`, like);
       } catch (error) {
         console.log(error);
       }
@@ -55,7 +65,7 @@ export default function PostContent(props){
 
     const dislikeHandler = async () => {
       try {
-        await api.put(`/posts/post-dislike/${id}/`, null);
+        await api.put(`/posts/postdislike/${id}/`, dislike);
       } catch (error) {
         console.log(error);
       }
@@ -64,7 +74,7 @@ export default function PostContent(props){
     const reactionHandler = async (e) => {
       e.preventDefault();
       await api
-        .get(`/posts/post-like/${id}/`)
+        .get(`/posts/postlike/${id}/`)
         .then((response) => {
           setLikes(response.data.user.length);
         })
@@ -72,7 +82,7 @@ export default function PostContent(props){
           console.log(error);
         });
       await api
-        .get(`/posts/post-dislike/${id}/`)
+        .get(`/posts/postdislike/${id}/`)
         .then((response) => {
           setDislikes(response.data.user.length);
         })
@@ -80,15 +90,20 @@ export default function PostContent(props){
           console.log(error);
         });
     };
+
+    const dateString = props.updated_at;
+    const date = new Date(dateString).toDateString();
     return (
         <>
             <main className="col-md-6 mb-4 order-2 order-md-2">
-                <article className="card shadow-sm">
-                    <div className="card-body">
+              <div className="overflow-auto" style={{maxHeight: 'calc(100vh - 120px)'}}>
+              <article className="card shadow-sm">
+                <div className="card-body">
                         <div className="d-flex justify-content-between align-items-start mb-2">
                             <div>
                                 <h4 className="card-title mb-0">{props.title}</h4>
-                                <small className="text-muted">{props.updated_at}</small>
+                                <small>@{props.user}</small><br />
+                                <small className="text-muted">{date}</small>
                             </div>
                             <form onSubmit={reactionHandler}>
                                 <div className="text-end">
@@ -101,14 +116,16 @@ export default function PostContent(props){
                         <div className="mb-3">
                             <img src={props.image} alt="post image" className="img-fluid rounded"/>
                         </div>
-                        <p className="card-text">{props.description}</p>
                         <div className="mt-3">
                             <Link to="" className="btn btn-sm btn-outline-success me-2">Edit</Link>
                             <button onClick={deleteHandler} className="btn btn-sm btn-outline-danger">Delete</button>
                         </div>
+                        <p className="card-text">{props.description}</p>
+                        
                     </div>
                 </article>
-            </main>
+                </div>
+              </main>
         </>
     )
 }

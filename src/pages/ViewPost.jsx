@@ -28,6 +28,7 @@ export default function ViewPost(){
         .get("/posts/home/")
         .then((response) => {
             setPosts(response.data);
+            console.log(response.data)
         })
         .catch((error) => {
             console.error(error);
@@ -41,7 +42,7 @@ export default function ViewPost(){
             <div className="row">
                 <RecentContainer recents={posts}/>
                 { post &&
-                (<PostContent id={post.id} title={post.title} updated_at={post.updated_at} description={post.description} image={post.image}/>)
+                (<PostContent id={post.id} title={post.title} updated_at={post.updated_at} user={post.user} description={post.description} image={post.image}/>)
                 }           
                 <CommentContainer/>
             </div>
