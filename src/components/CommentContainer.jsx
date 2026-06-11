@@ -18,7 +18,7 @@ export default function CommentContainer(){
           .catch((error) => {
             console.error(error);
           });
-      }, [id]);
+      }, []);
 
 
     const commentChangeHandler = (e) =>{
@@ -80,7 +80,7 @@ export default function CommentContainer(){
                       {
                         comments.map((comment) => (
                           <div key={comment.id} className="comment-item mb-3">
-                            <CommentList  fields={comment} deleteHandler={deleteHandler}/>
+                            <CommentList  fields={comment} deleteHandler={deleteHandler} setComments={setComments}/>
                           </div>
                         ))
                       }

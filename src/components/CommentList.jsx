@@ -2,7 +2,6 @@ import { jwtDecode } from "jwt-decode";
 import api, { ACCESS_TOKEN } from "../api/api";
 import { useState, useEffect } from "react";
 
-
 export default function CommentList({fields, deleteHandler}){
     const [commenter, setCommenter] = useState(0);
     const [editMode, setEditMode] = useState(false);
@@ -30,11 +29,15 @@ export default function CommentList({fields, deleteHandler}){
         .catch((error)=>{
             alert(error)
         })
-        setComment("")
         setEditMode(!editMode)
+        
     }
+
     const token = localStorage.getItem(ACCESS_TOKEN);
-    const userId = jwtDecode(token).user_id;
+    let userId = 0; 
+    if (token){
+        userId = jwtDecode(token).user_id;
+    }
 
     if (editMode){
         return (

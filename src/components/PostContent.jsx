@@ -27,7 +27,10 @@ export default function PostContent(props){
 
     const {id} = useParams();
     const token = localStorage.getItem(ACCESS_TOKEN);
-    const userId = jwtDecode(token).user_id;
+    let userId = 0
+    if (token){
+        userId = jwtDecode(token).user_id;
+    }
 
     useEffect(()=>{
         api.get(`/posts/views/${props.post.id}/`)
@@ -68,7 +71,9 @@ export default function PostContent(props){
 
     const likeHandler = async () => {
       try {
-        await api.put(`/posts/postlike/${id}/`, like);
+        if(token){
+            await api.put(`/posts/postlike/${id}/`, like);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -76,7 +81,9 @@ export default function PostContent(props){
 
     const dislikeHandler = async () => {
       try {
-        await api.put(`/posts/postdislike/${id}/`, dislike);
+        if(token){
+            await api.put(`/posts/postdislike/${id}/`, dislike);
+        }
       } catch (error) {
         console.log(error);
       }

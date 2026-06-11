@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from '../api/api';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function UpdatePage() {
     const [post, setPost] = useState({       
@@ -12,6 +12,7 @@ export default function UpdatePage() {
     const [preview, setPreview] = useState(null)
 
     const {id} = useParams();
+    const navigate = useNavigate();
 
     useEffect(()=>{
       if (!id) return;
@@ -60,6 +61,7 @@ export default function UpdatePage() {
       await api.put(`/posts/post-detail/${id}/`, formData).catch((error) => {
         alert(error);
       });
+      navigate('/home')
     
     };
   return (

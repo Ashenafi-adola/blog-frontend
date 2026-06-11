@@ -15,8 +15,7 @@ export default function ViewPost(){
         api
         .get(`/posts/post-detail/${id}/`)
         .then((response) => {
-            setPost(response.data);
-            
+            setPost(response.data);            
         })
         .catch((error) =>{
             console.log(error);
@@ -33,7 +32,6 @@ export default function ViewPost(){
             console.error(error);
         });
     }, []);
-
 
     return (
         <>

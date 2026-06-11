@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from '../api/api';
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
   const [formData, setFormData] = useState({
@@ -7,6 +8,8 @@ export default function CreatePost() {
     description : "",
     image: null
   });
+
+  const navigate = useNavigate()
 
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -40,6 +43,8 @@ export default function CreatePost() {
       await api.post("/posts/create-post/", data);
     } catch(error){
       console.error(error);
+    }finally{
+      navigate('/home')
     }
   }
 

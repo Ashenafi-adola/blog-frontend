@@ -27,7 +27,10 @@ export default function AuthPage(){
     const passwordConfirmationChangeHandler = (e) =>{
         setPasswordConfirmation(e.target.value)
     }
-
+    if(page === 'logout'){
+        localStorage.clear();
+        navigate("/home")
+    }
     const submitHandler = async (e) => {
         e.preventDefault();
         try{
@@ -40,14 +43,12 @@ export default function AuthPage(){
                 localStorage.clear();
                 const res = await api.post('/accounts/create-account/', {username, password})
                 navigate('/auth/login')
-            }else{
-                
+            }else if(page === 'login'){
                 setIsLoading(true)
                 const res = await api.post('/api/token/', {username, password});
                 localStorage.setItem(ACCESS_TOKEN, res.data.access);
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/add-post");
-                
+                navigate("/home");
             }
         }catch(error){
             console.log(error)
