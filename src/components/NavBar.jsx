@@ -20,10 +20,10 @@ const NavBar = () => {
                     <div className="collapse navbar-collapse" id="navbarContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/home">Home</Link>
+                                <Link className="nav-link" style={{color:'white'}} to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/add-post">Add Post</Link>
+                                <Link className="nav-link" style={{color:'white'}}  to="/add-post">Add Post</Link>
                             </li>
                             <li className="nav-item">
                                 { 
@@ -34,7 +34,6 @@ const NavBar = () => {
                             </li>
                         </ul>
 
-                        <span className="navbar-text me-3">username</span>
 
                     </div>
                 </div>

@@ -31,7 +31,7 @@ export default function HomePage() {
           <div className="row">
             <RecentContainer recents={posts}/>
             <main className="col-lg-9 order-1 order-lg-1">
-              <div className="overflow-auto" style={{maxHeight: 'calc(100vh - 120px)'}}>
+              <div className="overflow-auto" style={{maxHeight: 'calc(100vh - 120px)', scrollbarWidth:"none"}}>
                 <div className="row g-3">
                   {
                     posts.map((post) => (
