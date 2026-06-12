@@ -18,7 +18,7 @@ export default function CommentContainer(){
           .catch((error) => {
             console.error(error);
           });
-      }, []);
+      }, [id]);
 
 
     const commentChangeHandler = (e) =>{

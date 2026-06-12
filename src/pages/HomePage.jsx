@@ -2,7 +2,6 @@ import PostCard from "../components/PostCard";
 import RecentContainer from "../components/RecentContainer";
 import { useState, useEffect } from "react";
 import api from "../api/api";
-import { Link } from "react-router-dom";
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);

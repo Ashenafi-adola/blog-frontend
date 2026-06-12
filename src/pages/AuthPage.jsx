@@ -41,7 +41,7 @@ export default function AuthPage(){
                     return
                 }
                 localStorage.clear();
-                const res = await api.post('/accounts/create-account/', {username, password})
+                await api.post('/accounts/create-account/', {username, password})
                 navigate('/auth/login')
             }else if(page === 'login'){
                 setIsLoading(true)
