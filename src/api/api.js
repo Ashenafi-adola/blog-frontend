@@ -19,4 +19,21 @@ api.interceptors.request.use(
     }
 )
 
+api.like = (url, config={}) => {
+    return api.request({
+        ...config,
+        method:'LIKE',
+        url: url
+    })
+}
+
+api.dislike = (url, config={}) => {
+    return api.request({
+        ...config,
+        method:'DISLIKE',
+        url: url
+    })
+}
+
+
 export default api;

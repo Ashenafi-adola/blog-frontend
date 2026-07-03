@@ -277,8 +277,7 @@ code {
 }
 
 .recent-item-title {
-  font-weight: bold;
-  color: black;
+  font-weight: 600;
   font-size: 0.95rem;
   color: var(--text-h);
   overflow: hidden;

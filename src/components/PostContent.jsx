@@ -5,10 +5,13 @@ import { jwtDecode } from 'jwt-decode'
 
 export default function PostContent(props){
     const navigate = useNavigate();
-    const [likes, setLikes] = useState(0);
-    const [dislikes, setDislikes] = useState(0);
 
-    const [views, setViews] = useState(0);
+    const [postData, setPostData] = useState({
+        views: 0,
+        likes: 0,
+        dislikes: 0
+    })
+
     const [posterId, setPosterId] = useState(0);
 
     useEffect(()=>{
@@ -16,7 +19,8 @@ export default function PostContent(props){
         .then((response)=>{
             setPosterId(response.data.id)
         })
-    },[])
+
+    },[3])
 
     const {id} = useParams();
     const token = localStorage.getItem(ACCESS_TOKEN);
@@ -27,24 +31,12 @@ export default function PostContent(props){
     }
 
     useEffect(()=>{
-        api.get(`/posts/views/${props.post.id}/`)
-        .then((response)=>{
-            setViews(response.data.user.length)
-        }).catch((error)=>{
-            alert(error)
+        api.get(`/posts/post-detail/${props.post.id}`)
+        .then((res)=>{
+            setPostData(res.data)
+            console.log(res.data)
         })
-
-        api.get(`/posts/postlike/${id}/`)
-        .then((res) =>{
-            setLikes(res.data.user.length)
-        }).catch((error)=>{
-            console.log(error)
-        })
-
-        api.get(`/posts/postdislike/${id}/`)
-        .then((res) =>{
-            setDislikes(res.data.user.length)
-        }).catch((error)=>{
+        .catch((error)=>{
             console.log(error)
         })
     },[])
@@ -59,30 +51,37 @@ export default function PostContent(props){
     const likeHandler = async () => {
         await api.like(`/posts/post-detail/${id}/`)
         .then((res)=>{
-            setLikes(res.data.user.length)
+            setPostData({
+                ...postData,
+                likes: res.data.user.length
+            })
         }).catch((error)=>{
             console.log(error)
         })
-        await api.get(`/posts/postdislike/${id}/`)
+        await api.get(`/posts/post-detail/${id}/`)
         .then((res)=>{
-            setDislikes(res.data.user.length)
+            setPostData(res.data)
+            console.log('Test')
         })
-
     };
 
     const dislikeHandler = async () => {
-        await api.dislike(`/posts/postdislike/${id}/`)
+        await api.dislike(`/posts/post-detail/${id}/`)
         .then((res)=>{
-            setDislikes(res.data.user.length)
+            setPostData({
+                ...postData,
+                dislikes: res.data.user.length
+            })
         })
         .catch((error)=>{
             console.log(error)
         })
-        await api.get(`/posts/postlike/${id}/`)
+        
+        await api.get(`/posts/post-detail/${id}/`)
         .then((res)=>{
-            setLikes(res.data.user.length)
+            setPostData(res.data)
+            console.log('Test')
         })
-
     };
 
     const dateString = props.post.updated_at;
@@ -102,9 +101,9 @@ export default function PostContent(props){
                                 <small className="text-muted">{date}</small>
                             </div>
                                 <div className="post-header-actions">
-                                    <button type="submit" onClick={likeHandler} name="like" className="btn btn-sm btn-outline-primary">👍 {likes}</button>
-                                    <button type="submit" onClick={dislikeHandler} name="dislike" className="btn btn-sm btn-outline-secondary">👎 {dislikes}</button>
-                                    <div className="mt-2 text-muted small">{views}👁️</div>
+                                    <button type="submit" onClick={likeHandler} name="like" className="btn btn-sm btn-outline-primary">👍 {postData.likes}</button>
+                                    <button type="submit" onClick={dislikeHandler} name="dislike" className="btn btn-sm btn-outline-secondary">👎 {postData.dislikes}</button>
+                                    <div className="mt-2 text-muted small">{postData.views}👁️</div>
                                 </div>
                         </div>
                         <div className="mb-3">
