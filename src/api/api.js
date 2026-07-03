@@ -1,9 +1,11 @@
 import axios from "axios";
 
 export const ACCESS_TOKEN = "access";
+const isDevelopment = import.meta.env.MODE === 'development'
+const base_url = isDevelopment ? import.meta.env.VITE_API_BASE_URL_LOCAL : import.meta.env.VITE_API_BASE_URL_DEPLOY
 
 export const api = axios.create({
-    baseURL: "http://127.0.0.1:8000"
+    baseURL: base_url
 })
 
 api.interceptors.request.use(

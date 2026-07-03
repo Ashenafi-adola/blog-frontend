@@ -20,7 +20,7 @@ export default function PostContent(props){
             setPosterId(response.data.id)
         })
 
-    },[3])
+    },[])
 
     const {id} = useParams();
     const token = localStorage.getItem(ACCESS_TOKEN);
@@ -61,7 +61,6 @@ export default function PostContent(props){
         await api.get(`/posts/post-detail/${id}/`)
         .then((res)=>{
             setPostData(res.data)
-            console.log('Test')
         })
     };
 
@@ -80,7 +79,6 @@ export default function PostContent(props){
         await api.get(`/posts/post-detail/${id}/`)
         .then((res)=>{
             setPostData(res.data)
-            console.log('Test')
         })
     };
 
@@ -107,7 +105,7 @@ export default function PostContent(props){
                                 </div>
                         </div>
                         <div className="mb-3">
-                            <img src={props.post.image} alt="post image" className="img-fluid rounded"/>
+                            <img src={`http://127.0.0.1:8000/${props.post.image}`} alt="post image" className="img-fluid rounded"/>
                         </div>
                         {
                             userId == posterId ? (
@@ -116,7 +114,6 @@ export default function PostContent(props){
                                 <button onClick={deleteHandler} className="btn btn-sm btn-outline-danger">Delete</button>
                             </div>):<div></div>
                         }
-                        
                         <p className="card-text">{props.post.description}</p>
                     </div>
                 </article>
