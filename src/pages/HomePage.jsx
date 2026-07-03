@@ -21,32 +21,38 @@ export default function HomePage() {
     setSearch(e.target.value);
   }
   return (
-    <>
-      <div className="content">
-        <div className="container page-split">
-        <div className="d-flex col-lg-4 p-3" role="search">
-            <input onChange={searchHandler} className="form-control form-control-sm me-2" type="search" placeholder="Search posts" aria-label="Search" />
-            <button className="btn btn-sm btn-light" type="submit">Search</button>
-        </div>
-          <div className="row">
-            <RecentContainer recents={posts}/>
-            <main className="col-lg-9 order-1 order-lg-1">
-              <div className="overflow-auto" style={{maxHeight: 'calc(100vh - 120px)', scrollbarWidth:"none"}}>
-                <div className="row g-3">
-                  {
-                    posts.map((post) => (
-                      post.title.toLowerCase().includes(search.toLowerCase())?(
-                      <div key={post.id} className="col-sm-6 col-lg-4">
-                        <PostCard id={post.id} title={post.title} description={post.description} image={post.image} user={post.user}/>
-                      </div>):null
-                    ))
-                  }
-                </div>
-              </div>
-            </main>
+    <div className="content">
+      <div className="container-fluid page-split">
+        <div className="search-bar-wrapper">
+          <div className="search-bar" role="search">
+            <input
+              onChange={searchHandler}
+              className="form-control"
+              type="search"
+              placeholder="Search posts"
+              aria-label="Search"
+            />
+            <button className="btn btn-primary" type="button">Search</button>
           </div>
         </div>
+        <div className="row">
+          <RecentContainer recents={posts} orderClass="order-2 order-lg-1"/>
+          <main className="col-12 col-lg-9 order-1 order-lg-2">
+            <div className="post-grid-scroll">
+              <div className="row g-3">
+                {
+                  posts.map((post) => (
+                    post.title.toLowerCase().includes(search.toLowerCase())?(
+                    <div key={post.id} className="col-12 col-sm-6 col-xl-4">
+                      <PostCard id={post.id} title={post.title} description={post.description} image={post.image} user={post.user}/>
+                    </div>):null
+                  ))
+                }
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

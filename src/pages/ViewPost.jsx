@@ -34,16 +34,12 @@ export default function ViewPost(){
     }, []);
 
     return (
-        <>
-        <div className="container page-split">
+        <div className="container-fluid page-split">
             <div className="row">
-                <RecentContainer recents={posts}/>
-                { post &&
-                (<PostContent post={post}/>)
-                }           
+                { post && <PostContent post={post}/> }
                 <CommentContainer/>
+                <RecentContainer recents={posts}/>
             </div>
         </div>
-        </>
     )
 }

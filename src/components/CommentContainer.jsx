@@ -64,31 +64,37 @@ export default function CommentContainer(){
           });
     }
     return (
-        <>
-        <aside className="col-md-3 mb-4 order-3 order-md-3">
+        <aside className="col-12 col-lg-3 sidebar-panel order-2 order-lg-3">
             <div className="card shadow-sm">
-                <div className="card-body">
+                <div className="card-body d-flex flex-column">
                     <h5 className="card-title">Comments</h5>
-                    
-                        <textarea value={comment} className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}></textarea>
+
+                    <div className="comment-form">
+                        <textarea
+                            value={comment}
+                            className="form-control"
+                            placeholder="Leave your comment here..."
+                            onChange={commentChangeHandler}
+                            rows={3}
+                        />
                         <div className="d-grid">
                             <button onClick={formSubmitHandler} className="btn btn-primary btn-sm mt-2">Comment</button>
                         </div>
-                    
-                    <div className="comment-list">
-                      <div className="overflow-auto mt-3" style={{maxHeight: 'calc(100vh - 250px)'}}>
-                      {
-                        comments.map((comment) => (
-                          <div key={comment.id} className="comment-item mb-3">
-                            <CommentList  fields={comment} deleteHandler={deleteHandler} setComments={setComments}/>
-                          </div>
-                        ))
-                      }
-                      </div>
+                    </div>
+
+                    <div className="comment-list flex-grow-1">
+                        <div className="sidebar-scroll sidebar-scroll--comments mt-3">
+                            {
+                                comments.map((comment) => (
+                                    <div key={comment.id} className="comment-item">
+                                        <CommentList fields={comment} deleteHandler={deleteHandler} setComments={setComments}/>
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </aside>
-        </>
     )
 }

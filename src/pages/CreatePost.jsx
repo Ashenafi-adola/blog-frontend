@@ -50,7 +50,7 @@ export default function CreatePost() {
 
   return (
     <>
-      <div className="container">
+      <div className="container page-split form-page">
         <div className="row justify-content-center">
           <div className="col-12 col-md-8 col-lg-6">
             <form onSubmit={handleSubmit} className="card shadow-sm">

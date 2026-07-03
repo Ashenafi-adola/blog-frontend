@@ -8,14 +8,6 @@ export default function PostContent(props){
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
 
-    const [like, setLike] = useState({
-        post:0,
-        user:[]
-    })
-    const [dislike, setDislike] = useState({
-        post:0,
-        user:[]
-    })
     const [views, setViews] = useState(0);
     const [posterId, setPosterId] = useState(0);
 
@@ -45,7 +37,6 @@ export default function PostContent(props){
         api.get(`/posts/postlike/${id}/`)
         .then((res) =>{
             setLikes(res.data.user.length)
-            setLike(res.data)
         }).catch((error)=>{
             console.log(error)
         })
@@ -53,7 +44,6 @@ export default function PostContent(props){
         api.get(`/posts/postdislike/${id}/`)
         .then((res) =>{
             setDislikes(res.data.user.length)
-            setDislike(res.data)
         }).catch((error)=>{
             console.log(error)
         })
@@ -67,25 +57,22 @@ export default function PostContent(props){
     }
 
     const likeHandler = async () => {
-        await api.put(`/posts/postlike/${id}/`, like)
+        await api.like(`/posts/post-detail/${id}/`)
         .then((res)=>{
             setLikes(res.data.user.length)
-            setLike(res.data)
         }).catch((error)=>{
             console.log(error)
         })
         await api.get(`/posts/postdislike/${id}/`)
         .then((res)=>{
-            setDislike(res.data)
             setDislikes(res.data.user.length)
         })
 
     };
 
     const dislikeHandler = async () => {
-        await api.put(`/posts/postdislike/${id}/`, dislike)
+        await api.dislike(`/posts/postdislike/${id}/`)
         .then((res)=>{
-            setDislike(res.data)
             setDislikes(res.data.user.length)
         })
         .catch((error)=>{
@@ -93,7 +80,6 @@ export default function PostContent(props){
         })
         await api.get(`/posts/postlike/${id}/`)
         .then((res)=>{
-            setLike(res.data)
             setLikes(res.data.user.length)
         })
 
@@ -105,22 +91,21 @@ export default function PostContent(props){
 
     return (
         <>
-          <main className="col-md-6 mb-4 order-2 order-md-2">
-              <div className="overflow-auto" style={{maxHeight: 'calc(100vh - 120px)'}}>
+          <main className="col-12 col-lg-6 order-1 order-lg-2">
+              <div className="main-scroll">
               <article className="card shadow-sm">
                 <div className="card-body">
-                        <div className="d-flex justify-content-between align-items-start mb-2">
-                            <div>
+                        <div className="post-header mb-2">
+                            <div className="post-header-meta">
                                 <h4 className="card-title mb-0">{props.post.title}</h4>
                                 <small>@{props.post.user}</small><br />
                                 <small className="text-muted">{date}</small>
                             </div>
-                                <div className="text-end">
-                                    <button type="submit" onClick={likeHandler} name="like" className="btn btn-sm btn-outline-primary me-1">👍 {likes}</button>
+                                <div className="post-header-actions">
+                                    <button type="submit" onClick={likeHandler} name="like" className="btn btn-sm btn-outline-primary">👍 {likes}</button>
                                     <button type="submit" onClick={dislikeHandler} name="dislike" className="btn btn-sm btn-outline-secondary">👎 {dislikes}</button>
                                     <div className="mt-2 text-muted small">{views}👁️</div>
                                 </div>
-                            
                         </div>
                         <div className="mb-3">
                             <img src={props.post.image} alt="post image" className="img-fluid rounded"/>

@@ -41,28 +41,34 @@ export default function CommentList({fields, deleteHandler}){
 
     if (editMode){
         return (
-            <>
-                <textarea value={comment} className="form-control" placeholder="leave you comment here..." onChange={commentChangeHandler}></textarea>
+            <div className="comment-form">
+                <textarea
+                    value={comment}
+                    className="form-control"
+                    placeholder="Edit your comment..."
+                    onChange={commentChangeHandler}
+                    rows={3}
+                />
                 <div className="d-grid">
                     <button onClick={commentSubmitHandler} className="btn btn-primary btn-sm mt-2">Update</button>
                 </div>
-            </>
+            </div>
         )
     }
 
     return (
         <>
-            <div className="bg-light p-3 rounded-3 shadow-sm">
+            <div className="comment-bubble bg-light p-3 rounded-3 shadow-sm">
                 <small className="fw-semibold">@{fields.user}</small><br />
                 <small className="small text-muted">{fields.commented_at.slice(0,10)}</small>
-                <p className="mt-2">{comment}</p>
+                <p>{comment}</p>
             </div>
-            {   userId == commenter ?
-                (<div className="mt-3 d-flex gap-2">
+            {userId == commenter && (
+                <div className="comment-actions">
                     <button onClick={changeEditMode} className="btn btn-sm btn-outline-success">Edit</button>
                     <button onClick={deleteComment} className="btn btn-sm btn-outline-danger">Delete</button>
-                </div>): <div></div>
-            }
+                </div>
+            )}
         </>
     )
 }
