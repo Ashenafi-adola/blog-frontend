@@ -105,7 +105,7 @@ export default function PostContent(props){
                                 </div>
                         </div>
                         <div className="mb-3">
-                            <img src={`http://127.0.0.1:8000/${props.post.image}`} alt="post image" className="img-fluid rounded"/>
+                            <img src={`https://blog-api-1-dbyq.onrender.com/${props.post.image}`} alt="post image" className="img-fluid rounded"/>
                         </div>
                         {
                             userId == posterId ? (
